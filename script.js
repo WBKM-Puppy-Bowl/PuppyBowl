@@ -99,7 +99,48 @@ const renderAllPlayers = async (playerList) => {
  */
 const renderNewPlayerForm = () => {
     try {
-        
+        const formContainer = document.getElementById('new-player-form')
+        const form = document.createElement('form');
+        form.classList.add('new-player-form');
+
+        const nameInput = document.createElement('input');
+        nameInput.type = 'text';
+        nameInput.placeholder = 'Player Name';
+
+        const breedInput = document.createElement('input');
+        breedInput.type = 'text';
+        breedInput.placeholder = 'Player Breed';
+    
+        const statusInput = document.createElement('input');
+        statusInput.type = 'text';
+        statusInput.placeholder = 'Player Status';
+    
+        const submitButton = document.createElement('button');
+        submitButton.type = 'submit';
+        submitButton.textContent = 'Add Player';
+
+        form.addEventListener('submit', async (event) => {
+            event.preventDefault();
+    
+            const newPlayer = {
+                name: nameInput.value,
+                breed: breedInput.value,
+                status: statusInput.value,
+            };
+
+            await addNewPlayer(newPlayer);
+
+            const players = await fetchAllPlayers();
+            renderAllPlayers(players);
+        });
+
+        form.appendChild(nameInput);
+        form.appendChild(breedInput);
+        form.appendChild(statusInput);
+        form.appendChild(submitButton);
+    
+        formContainer.appendChild(form);
+
     } catch (err) {
         console.error('Uh oh, trouble rendering the new player form!', err);
     }

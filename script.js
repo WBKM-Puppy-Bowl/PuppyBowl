@@ -35,6 +35,16 @@ const fetchSinglePlayer = async (playerId) => {
 
 const addNewPlayer = async (playerObj) => {
     try {
+        const response = await fetch(`${APIURL}/players`, {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(playerObj)
+          });
+          const result = await response.json();
+          console.log(result.data);
+          return result.data;
 
     } catch (err) {
         console.error('Oops, something went wrong with adding that player!', err);
@@ -118,6 +128,10 @@ const renderNewPlayerForm = () => {
         const statusInput = document.createElement('input');
         statusInput.type = 'text';
         statusInput.placeholder = 'Player Status';
+
+        const imgInput = document.createElement('input');
+        imgInput.type = 'text';
+        imgInput.placeholder = 'Player Image URL';
     
         const submitButton = document.createElement('button');
         submitButton.type = 'submit';
@@ -141,6 +155,7 @@ const renderNewPlayerForm = () => {
         form.appendChild(nameInput);
         form.appendChild(breedInput);
         form.appendChild(statusInput);
+        form.appendChild(imgInput);
         form.appendChild(submitButton);
     
         formContainer.appendChild(form);

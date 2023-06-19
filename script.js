@@ -53,6 +53,15 @@ const addNewPlayer = async (playerObj) => {
 
 const removePlayer = async (playerId) => {
     try {
+        const response = await fetch(`${APIURL}/players/${playerId}`, {
+            method: 'DELETE',
+          });
+      
+          if (response.ok) {
+            console.log(`Player #${playerId} successfully removed from the roster.`);
+          } else {
+            console.error(`Failed to remove player #${playerId} from the roster.`);
+          }
 
     } catch (err) {
         console.error(
@@ -96,6 +105,8 @@ const renderAllPlayers = async (playerList) => {
             <h3>${player.name}</h3>
             <p>Breed: ${player.breed}</p>
             <p>Status: ${player.status}</p>
+            <button class="details-button" data-player-id="${player.id}">See Details</button>
+            <button class="remove-button" data-player-id="${player.id}">Remove from Roster</button>
         `;
         container.appendChild(playerCard);
 
